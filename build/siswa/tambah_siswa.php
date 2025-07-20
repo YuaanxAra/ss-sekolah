@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Ambil data user (siswa) & kelas
-$siswa_result = $conn->query("SELECT id_user, nama FROM users");
+$siswa_result = $conn->query("SELECT id_user, nama FROM users WHERE role = 'siswa'");
 $kelas_result = $conn->query("SELECT id_kelas, nama_kelas FROM kelas");
 ?>
 

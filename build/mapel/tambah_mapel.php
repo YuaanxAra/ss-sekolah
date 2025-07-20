@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$guru_result = $conn->query("SELECT id_user, nama FROM users");
+$guru_result = $conn->query("SELECT id_user, nama FROM users WHERE role IN ('guru', 'admin')");
 ?>
 
 <!DOCTYPE html>

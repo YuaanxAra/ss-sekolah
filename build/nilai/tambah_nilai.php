@@ -2,7 +2,7 @@
 include_once '../config.php';
 
 // Ambil daftar siswa dan mapel
-$siswa = $conn->query("SELECT id_user, nama FROM users");
+$siswa = $conn->query("SELECT id_user, nama FROM users WHERE role = 'siswa'");
 $mapel = $conn->query("SELECT id_mapel, nama_mapel FROM mapel");
 
 // Proses submit form
