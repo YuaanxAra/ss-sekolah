@@ -1,5 +1,5 @@
 <?php
-include_once 'config.php';
+include_once '../config.php';
 
 // Ambil ID dari URL
 $id = $_GET['id'] ?? null;
