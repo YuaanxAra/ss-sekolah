@@ -1,5 +1,5 @@
 <?php
-include_once '../config.php';
+include_once 'config.php';
 
 // Ambil ID dari URL
 $id = $_GET['id'] ?? null;
@@ -9,10 +9,11 @@ if (!$id) {
 
 // Ambil data siswa berdasarkan ID
 $query = "
-    SELECT u.id_user, u.nama, k.nama_kelas
+    SELECT u.id_user, u.nama, u.nisn, k.nama_kelas
     FROM siswa_kelas sk
     JOIN users u ON sk.id_siswa = u.id_user
     JOIN kelas k ON sk.id_kelas = k.id_kelas
+    WHERE u.id_user = $id
 ";
 $result = $conn->query($query);
 $siswa = $result->fetch_assoc();
@@ -24,8 +25,9 @@ if (!$siswa) {
 // Proses update saat form dikirim
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama = $_POST['nama'];
+    $nisn = $_POST['nisn'];
 
-    $update = "UPDATE users SET nama = '$nama' WHERE id_user = $id";
+    $update = "UPDATE users SET nama = '$nama', nisn = '$nisn' WHERE id_user = $id";
     if ($conn->query($update)) {
         header("Location: siswa.php");
         exit;
@@ -65,8 +67,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="POST">
             <label>Nama Siswa</label>
             <input type="text" name="nama" value="<?= htmlspecialchars($siswa['nama']) ?>" required>
+
+            <label>NISN</label>
+            <input type="text" name="nisn" value="<?= htmlspecialchars($siswa['nisn'] ?? '') ?>" required>
+
             <label>Kelas</label>
-            <input type="text" name="kelas" value="<?= htmlspecialchars($siswa['nama_kelas']) ?>" required>
+            <input type="text" name="kelas" value="<?= htmlspecialchars($siswa['nama_kelas']) ?>" disabled>
+
             <button type="submit">Simpan</button>
             <a href="siswa.php">Batal</a>
         </form>
