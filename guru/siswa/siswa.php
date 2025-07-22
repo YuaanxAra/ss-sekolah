@@ -1,13 +1,12 @@
 <?php
 include_once '../config.php';
 
-// Ambil data nilai lengkap
+// Ambil data siswa dan nama kelas
 $query = "
-    SELECT n.id_nilai, u.nama AS nama_siswa, m.nama_mapel,
-           n.uts, n.uas, n.tugas, n.nilai_akhir
-    FROM nilai n
-    JOIN users u ON n.id_siswa = u.id_user
-    JOIN mapel m ON n.id_mapel = m.id_mapel
+    SELECT u.id_user, u.nama, k.nama_kelas
+    FROM siswa_kelas sk
+    JOIN users u ON sk.id_siswa = u.id_user
+    JOIN kelas k ON sk.id_kelas = k.id_kelas
 ";
 $result = $conn->query($query);
 ?>
@@ -17,24 +16,13 @@ $result = $conn->query($query);
 
 <head>
   <meta charset="UTF-8">
-  <title>Daftar Nilai</title>
+  <title>Daftar Siswa</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <script src="https://unpkg.com/@popperjs/core@2"></script>
   <link href="../assets/css/argon-dashboard-tailwind.css?v=1.0.1" rel="stylesheet" />
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <!-- Nucleo Icons -->
-  <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
-  <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Popper -->
-  <script src="https://unpkg.com/@popperjs/core@2"></script>
-  <!-- Main Styling -->
-  <link href="./assets/css/argon-dashboard-tailwind.css?v=1.0.1" rel="stylesheet" />
   <style>
     body {
       font-family: 'Open Sans', sans-serif;
@@ -65,7 +53,7 @@ $result = $conn->query($query);
     td {
       padding: 12px 16px;
       border: 1px solid #e0e0e0;
-      text-align: center;
+      text-align: left;
     }
 
     th {
@@ -114,17 +102,17 @@ $result = $conn->query($query);
           </a>
         </li>
         <li class="mt-0.5 w-full">
-          <a class="py-2.7 hover:bg-blue-100 dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../siswa/siswa.php">
+          <a class="py-2.7 bg-blue-500 text-white dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="siswa.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-              <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-hat-3"></i>
+              <i class="relative top-0 text-sm leading-normal text-white ni ni-hat-3"></i>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Siswa</span>
           </a>
         </li>
         <li class="mt-0.5 w-full">
-          <a class="py-2.7 bg-blue-500 text-white dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="nilai.php">
+          <a class="py-2.7 hover:bg-blue-100 dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../nilai/nilai.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-              <i class="relative top-0 text-sm leading-normal text-white-500 ni ni-chart-bar-32"></i>
+              <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-chart-bar-32"></i>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Nilai</span>
           </a>
@@ -140,15 +128,15 @@ $result = $conn->query($query);
       </ul>
     </div>
   </aside>
-
+  
   <!-- MAIN CONTENT -->
   <main class="p-6">
-    <h1 class="text-2xl font-semibold text-slate-700 mb-4">Daftar Nilai Siswa</h1>
-    <a href="tambah_nilai.php"
+    <h1 class="text-2xl font-semibold text-slate-700 mb-4">Daftar Siswa</h1>
+    <a href="tambah_siswa.php"
       style="display:inline-block; background-color:#28a745; color:white; padding:8px 16px; border-radius:6px; text-decoration:none; margin-bottom:16px; box-shadow:0 2px 4px rgba(0,0,0,0.1);"
       onmouseover="this.style.backgroundColor='#218838'"
       onmouseout="this.style.backgroundColor='#28a745'">
-      + Tambah Nilai
+      + Tambah Siswa
     </a>
 
     <div class="bg-white rounded-xl shadow-lg p-4 overflow-x-auto">
@@ -157,11 +145,7 @@ $result = $conn->query($query);
           <tr>
             <th class="px-4 py-2 border">No</th>
             <th class="px-4 py-2 border">Nama Siswa</th>
-            <th class="px-4 py-2 border">Mata Pelajaran</th>
-            <th class="px-4 py-2 border">UTS</th>
-            <th class="px-4 py-2 border">UAS</th>
-            <th class="px-4 py-2 border">Tugas</th>
-            <th class="px-4 py-2 border">Nilai Akhir</th>
+            <th class="px-4 py-2 border">Kelas</th>
             <th class="px-4 py-2 border">Aksi</th>
           </tr>
         </thead>
@@ -171,16 +155,12 @@ $result = $conn->query($query);
             while ($row = $result->fetch_assoc()): ?>
               <tr class="hover:bg-slate-50 transition">
                 <td class="px-4 py-2 border"><?= $no++ ?></td>
-                <td class="px-4 py-2 border"><?= htmlspecialchars($row['nama_siswa']) ?></td>
-                <td class="px-4 py-2 border"><?= htmlspecialchars($row['nama_mapel']) ?></td>
-                <td class="px-4 py-2 border"><?= $row['uts'] ?></td>
-                <td class="px-4 py-2 border"><?= $row['uas'] ?></td>
-                <td class="px-4 py-2 border"><?= $row['tugas'] ?></td>
-                <td class="px-4 py-2 border"><?= number_format($row['nilai_akhir'], 2) ?></td>
+                <td class="px-4 py-2 border"><?= htmlspecialchars($row['nama']) ?></td>
+                <td class="px-4 py-2 border"><?= htmlspecialchars($row['nama_kelas']) ?></td>
                 <td class="px-4 py-2 border">
 
                   <!-- TOMBOL EDIT-->
-                  <a href="edit_nilai.php?id=<?= $row['id_nilai'] ?>"
+                  <a href="edit_siswa.php?id=<?= $row['id_user'] ?>"
                     style="background-color:#ffc107; color:white; padding:6px 12px; border-radius:4px; text-decoration:none; margin-right:6px;"
                     onmouseover="this.style.backgroundColor='#e0a800'"
                     onmouseout="this.style.backgroundColor='#ffc107'">
@@ -188,8 +168,8 @@ $result = $conn->query($query);
                   </a>
 
                   <!-- TOMBOL HAPUS-->
-                  <a href="hapus_nilai.php?id=<?= $row['id_nilai'] ?>"
-                    onclick="return confirm('Yakin ingin menghapus nilai ini?');"
+                  <a href="hapus_siswa.php?id=<?= $row['id_user'] ?>"
+                    onclick="return confirm('Yakin ingin menghapus siswa ini?');"
                     style="background-color:#dc3545; color:white; padding:6px 12px; border-radius:4px; text-decoration:none;"
                     onmouseover="this.style.backgroundColor='#c82333'"
                     onmouseout="this.style.backgroundColor='#dc3545'">
@@ -207,6 +187,7 @@ $result = $conn->query($query);
       </table>
     </div>
   </main>
+
 
 </body>
 
