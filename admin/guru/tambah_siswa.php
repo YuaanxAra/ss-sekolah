@@ -1,22 +1,38 @@
 <?php
+session_start();
 include_once '../config.php';
 
-// Proses tambah siswa
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id_siswa = $_POST['id_siswa'];
+    $nisn     = $_POST['nisn'];
+    $username     = $_POST['username'];
+    $nama     = $_POST['nama'];
+    $email    = $_POST['email'];
     $id_kelas = $_POST['id_kelas'];
 
-    $insert = "INSERT INTO siswa_kelas (id_siswa, id_kelas) VALUES ('$id_siswa', '$id_kelas')";
-    if ($conn->query($insert)) {
+    $password = password_hash($nisn, PASSWORD_DEFAULT);
+    $role     = 'siswa';
+    $created  = date('Y-m-d H:i:s');
+
+    // Simpan ke tabel users
+    $stmt = $conn->prepare("INSERT INTO users (nisn, username, password, nama, email, role, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssss", $nisn, $username, $password, $nama, $email, $role, $created);
+
+    if ($stmt->execute()) {
+        $id_user = $conn->insert_id;
+
+        // Simpan ke tabel siswa_kelas
+        $stmt2 = $conn->prepare("INSERT INTO siswa_kelas (id_siswa, id_kelas) VALUES (?, ?)");
+        $stmt2->bind_param("ii", $id_user, $id_kelas);
+        $stmt2->execute();
+
         header("Location: siswa.php");
         exit;
     } else {
-        echo "Gagal menambahkan siswa.";
+        echo "Gagal menambahkan siswa: " . $conn->error;
     }
 }
 
-// Ambil data user (siswa) & kelas
-$siswa_result = $conn->query("SELECT id_user, nama FROM users WHERE role = 'siswa'");
+// Ambil data kelas (saja, karena siswa belum ada)
 $kelas_result = $conn->query("SELECT id_kelas, nama_kelas FROM kelas");
 ?>
 
@@ -72,15 +88,20 @@ $kelas_result = $conn->query("SELECT id_kelas, nama_kelas FROM kelas");
     </style>
 </head>
 
-<body>
+<body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-200 leading-default bg-gray-50 text-slate-900">
     <h2>Tambah Siswa</h2>
     <form method="POST">
+        <label>NISN:</label><br>
+        <input type="text" name="nisn" required placeholder="NISN Siswa"><br><br>
+
         <label>Nama Siswa:</label><br>
-        <select name="id_siswa" required>
-            <?php while ($siswa = $siswa_result->fetch_assoc()): ?>
-                <option value="<?= $siswa['id_user'] ?>"><?= htmlspecialchars($siswa['nama']) ?></option>
-            <?php endwhile; ?>
-        </select><br><br>
+        <input type="text" name="nama" required placeholder="Nama Siswa"><br><br>
+
+        <label>Username:</label><br>
+        <input type="text" name="username" required placeholder="Username untuk akun"><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" name="email" required placeholder="Email Siswa"><br><br>
 
         <label>Kelas:</label><br>
         <select name="id_kelas" required>

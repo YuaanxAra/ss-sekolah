@@ -1,12 +1,10 @@
 <?php
+session_start();
 include_once '../config.php';
 
 // Ambil data siswa dan nama kelas
 $query = "
-    SELECT u.id_user, u.nama, k.nama_kelas
-    FROM siswa_kelas sk
-    JOIN users u ON sk.id_siswa = u.id_user
-    JOIN kelas k ON sk.id_kelas = k.id_kelas
+    SELECT * FROM users WHERE role = 'guru'
 ";
 $result = $conn->query($query);
 ?>
@@ -65,9 +63,19 @@ $result = $conn->query($query);
       background-color: #f4f6f9;
     }
   </style>
+  <script>
+    console.log("DEBUG SESSION:");
+    console.log("ID User:", "<?php echo $_SESSION['id_user'] ?? 'null'; ?>");
+    console.log("Username:", "<?php echo $_SESSION['username'] ?? 'null'; ?>");
+    console.log("Nama:", "<?php echo $_SESSION['nama'] ?? 'null'; ?>");
+    console.log("Email:", "<?php echo $_SESSION['email'] ?? 'null'; ?>");
+    console.log("Role:", "<?php echo $_SESSION['role'] ?? 'null'; ?>");
+    console.log("NISN:", "<?php echo $_SESSION['nisn'] ?? 'null'; ?>");
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-200 leading-default bg-gray-50 text-slate-900">
 
   <!-- SIDEBAR -->
   <aside class="fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full bg-white border-0 shadow-xl dark:shadow-none dark:bg-slate-850 max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0 m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500" aria-expanded="false">
@@ -85,7 +93,7 @@ $result = $conn->query($query);
     <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
       <ul class="flex flex-col pl-0 mb-0">
         <li class="mt-0.5 w-full">
-          <a class="py-2.7 hover:bg-blue-100 dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../index.html">
+          <a class="py-2.7 hover:bg-blue-100 dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../index.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
               <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-tv-2"></i>
             </div>
@@ -125,10 +133,20 @@ $result = $conn->query($query);
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Galeri</span>
           </a>
         </li>
+        <li class="mt-auto w-full">
+          <a class="py-2.7 bg-red-600 hover:bg-red-700 text-white text-sm ease-nav-brand my-4 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200"
+            href="../../logout.php">
+            <div
+              class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+              <i class="relative top-0 text-sm leading-normal text-white ni ni-button-power"></i>
+            </div>
+            <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Logout</span>
+          </a>
+        </li>
       </ul>
     </div>
   </aside>
-  
+
   <!-- MAIN CONTENT -->
   <main class="p-6">
     <h1 class="text-2xl font-semibold text-slate-700 mb-4">Daftar Siswa</h1>

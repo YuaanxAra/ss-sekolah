@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once '../config.php';
 
 // Ambil ID dari URL
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Ambil daftar guru untuk dropdown
-$guru_result = $conn->query("SELECT id_user, nama FROM users");
+$guru_result = $conn->query("SELECT id_user, nama FROM users WHERE role = 'guru'");
 ?>
 
 <!DOCTYPE html>
@@ -69,7 +70,15 @@ $guru_result = $conn->query("SELECT id_user, nama FROM users");
             font-weight: 600;
         }
 
-        input[type="text"], select {
+        input[type="text"] {
+            width: 94%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        select {
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
@@ -109,7 +118,7 @@ $guru_result = $conn->query("SELECT id_user, nama FROM users");
         }
     </style>
 </head>
-<body>
+<body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-200 leading-default bg-gray-50 text-slate-900">
     <div class="container">
         <h2>Edit Data Mapel</h2>
         <form method="POST">

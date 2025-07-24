@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once '../config.php';
 
 // Ambil ID dari URL
@@ -59,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         a { background: gray; color: white; margin-left: 10px; }
     </style>
 </head>
-<body>
+<body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-200 leading-default bg-gray-50 text-slate-900">
     <div class="form-box">
         <h2>Edit Siswa</h2>
         <form method="POST">
