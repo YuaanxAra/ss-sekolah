@@ -103,16 +103,16 @@ $result = $stmt->get_result();
   </script>
 </head>
 
-<body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
+<body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-200 leading-default bg-gray-50 text-slate-500">
   <div class="absolute w-full bg-blue-500 dark:hidden min-h-75"></div>
 
   <!-- SIDEBAR -->
   <aside
-    class="bg-[#1b2d4a] text-white fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full border-0 shadow-xl dark:shadow-none dark:bg-slate-850 max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0"
+    class="bg-white text-white fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full border-0 shadow-xl dark:shadow-none dark:bg-slate-850 max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0"
     aria-expanded="false">
     <div class="h-19">
-      <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer fas fa-times dark:text-white text-slate-400 xl:hidden" sidenav-close></i>
-      <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-white text-slate-700" href="#">
+      <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer fas fa-times dark:text-slate-900 text-slate-400 xl:hidden" sidenav-close></i>
+      <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-slate-900 text-slate-700" href="#">
         <img src="../assets/img/logo-ct-dark.png" class="inline h-full max-w-full transition-all duration-200 dark:hidden ease-nav-brand max-h-8" alt="main_logo" />
         <img src="../assets/img/logo-ct.png" class="hidden h-full max-w-full transition-all duration-200 dark:inline ease-nav-brand max-h-8" alt="main_logo" />
         <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Argon Dashboard 2</span>
@@ -124,7 +124,7 @@ $result = $stmt->get_result();
     <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
       <ul class="flex flex-col pl-0 mb-0">
         <li class="mt-0.5 w-full">
-          <a class="py-2.7 hover:bg-blue-800 dark:text-slate-300 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../index.php">
+          <a class="py-2.7 hover:bg-blue-100 dark:text-slate-600 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../index.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
               <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-tv-2"></i>
             </div>
@@ -164,9 +164,9 @@ $result = $stmt->get_result();
 
   <!-- MAIN CONTENT -->
   <main class="p-6">
-    <h1 class="text-2xl font-semibold text-slate-300 mb-4">Daftar Nilai Siswa</h1>
+    <h1 class="text-2xl font-semibold text-slate-900 mb-4">Daftar Nilai Siswa</h1>
 
-    <div class="bg-[#1b2d4a] rounded-xl shadow-lg p-4 overflow-x-auto">
+    <div class="bg-white rounded-xl shadow-lg p-4 overflow-x-auto">
       <?php
       // Tempatkan fungsi di atas sebelum tag <table>
       function getGrade($nilai)

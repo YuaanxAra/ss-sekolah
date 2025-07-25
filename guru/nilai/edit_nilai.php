@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once '../config.php';
 
 // Ambil ID nilai dari URL
@@ -34,24 +35,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Data siswa & mapel
-$siswa = $conn->query("SELECT id_user, nama FROM users");
+// Ambil nama siswa dari id_siswa yang ada di nilai
+$id_siswa = $nilai['id_siswa'];
+$siswa_result = $conn->query("SELECT nama FROM users WHERE id_user = $id_siswa");
+$siswa_data = $siswa_result->fetch_assoc();
+$nama_siswa = $siswa_data['nama'] ?? '';
+
 $mapel = $conn->query("SELECT id_mapel, nama_mapel FROM mapel");
 ?>
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Edit Nilai</title>
     <style>
-        body { font-family: Arial; background: #f5f5f5; padding: 20px; }
-        form { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
-        input, select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
-        button { padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        a { text-decoration: none; color: #555; margin-left: 10px; }
-        h2 { text-align: center; color: #333; }
+        body {
+            font-family: Arial;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        form {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        input {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: #555;
+            margin-left: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
     </style>
 </head>
-<body>
+
+<body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-200 leading-default bg-gray-50 text-slate-900">
     <h2>Edit Data Nilai</h2>
     <form method="POST">
         <label>Mata Pelajaran</label>
@@ -64,13 +114,8 @@ $mapel = $conn->query("SELECT id_mapel, nama_mapel FROM mapel");
         </select>
 
         <label>Nama Siswa</label>
-        <select name="id_siswa">
-            <?php while ($s = $siswa->fetch_assoc()): ?>
-                <option value="<?= $s['id_user'] ?>" <?= $s['id_user'] == $nilai['id_siswa'] ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($s['nama']) ?>
-                </option>
-            <?php endwhile; ?>
-        </select>
+        <input type="text" value="<?= htmlspecialchars($nama_siswa) ?>" readonly>
+        <input type="hidden" name="id_siswa" value="<?= $id_siswa ?>">
 
         <label>UTS</label>
         <input type="number" name="uts" value="<?= $nilai['uts'] ?>" required>
@@ -85,4 +130,5 @@ $mapel = $conn->query("SELECT id_mapel, nama_mapel FROM mapel");
         <a href="nilai.php">Batal</a>
     </form>
 </body>
+
 </html>

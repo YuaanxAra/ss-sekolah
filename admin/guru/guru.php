@@ -2,7 +2,7 @@
 session_start();
 include_once '../config.php';
 
-// Ambil data siswa dan nama kelas
+// Ambil data user dengan peran guru
 $query = "
     SELECT * FROM users WHERE role = 'guru'
 ";
@@ -14,7 +14,7 @@ $result = $conn->query($query);
 
 <head>
   <meta charset="UTF-8">
-  <title>Daftar Siswa</title>
+  <title>Daftar Guru</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
@@ -78,10 +78,10 @@ $result = $conn->query($query);
 <body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-200 leading-default bg-gray-50 text-slate-900">
 
   <!-- SIDEBAR -->
-  <aside class="fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full bg-white border-0 shadow-xl dark:shadow-none dark:bg-slate-850 max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0 m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500" aria-expanded="false">
+  <aside class="fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full bg-white border-0 shadow-xl dark:shadow-none dark:bg-white max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0 m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500" aria-expanded="false">
     <div class="h-19">
-      <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer fas fa-times dark:text-white text-slate-400 xl:hidden" sidenav-close></i>
-      <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-white text-slate-700" href="#">
+      <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer fas fa-times dark:text-slate-900 text-slate-400 xl:hidden" sidenav-close></i>
+      <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-slate-900 text-slate-700" href="#">
         <img src="../assets/img/logo-ct-dark.png" class="inline h-full max-w-full transition-all duration-200 dark:hidden ease-nav-brand max-h-8" alt="main_logo" />
         <img src="../assets/img/logo-ct.png" class="hidden h-full max-w-full transition-all duration-200 dark:inline ease-nav-brand max-h-8" alt="main_logo" />
         <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Argon Dashboard 2</span>
@@ -93,7 +93,7 @@ $result = $conn->query($query);
     <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
       <ul class="flex flex-col pl-0 mb-0">
         <li class="mt-0.5 w-full">
-          <a class="py-2.7 hover:bg-blue-100 dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../index.php">
+          <a class="py-2.7 hover:bg-blue-100 dark:text-slate-600 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../index.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
               <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-tv-2"></i>
             </div>
@@ -102,7 +102,7 @@ $result = $conn->query($query);
         </li>
 
         <li class="mt-0.5 w-full">
-          <a class="py-2.7 hover:bg-blue-100 dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../mapel/mapel.php">
+          <a class="py-2.7 hover:bg-blue-100 dark:text-slate-600 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../mapel/mapel.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
               <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-book-bookmark"></i>
             </div>
@@ -110,29 +110,37 @@ $result = $conn->query($query);
           </a>
         </li>
         <li class="mt-0.5 w-full">
-          <a class="py-2.7 bg-blue-500 text-white dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="siswa.php">
+          <a class="py-2.7 hover:bg-blue-100 dark:text-slate-600 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../siswa/siswa.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-              <i class="relative top-0 text-sm leading-normal text-white ni ni-hat-3"></i>
+              <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-hat-3"></i>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Siswa</span>
           </a>
         </li>
         <li class="mt-0.5 w-full">
-          <a class="py-2.7 hover:bg-blue-100 dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../nilai/nilai.php">
+          <a class="py-2.7 bg-blue-500 text-white dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="guru.php">
+            <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+              <i class="relative top-0 text-sm leading-normal text-white ni ni-hat-3"></i>
+            </div>
+            <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Guru</span>
+          </a>
+        </li>
+        <li class="mt-0.5 w-full">
+          <a class="py-2.7 hover:bg-blue-100 dark:text-slate-600 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../nilai/nilai.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
               <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-chart-bar-32"></i>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Nilai</span>
           </a>
         </li>
-        <li class="mt-0.5 w-full">
+        <!-- <li class="mt-0.5 w-full">
           <a class="py-2.7 hover:bg-blue-100 dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../galeri.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
               <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-tv-2"></i>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Galeri</span>
           </a>
-        </li>
+        </li> -->
         <li class="mt-auto w-full">
           <a class="py-2.7 bg-red-600 hover:bg-red-700 text-white text-sm ease-nav-brand my-4 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200"
             href="../../logout.php">
@@ -149,12 +157,12 @@ $result = $conn->query($query);
 
   <!-- MAIN CONTENT -->
   <main class="p-6">
-    <h1 class="text-2xl font-semibold text-slate-700 mb-4">Daftar Siswa</h1>
-    <a href="tambah_siswa.php"
+    <h1 class="text-2xl font-semibold text-slate-700 mb-4">Daftar Guru</h1>
+    <a href="tambah_guru.php"
       style="display:inline-block; background-color:#28a745; color:white; padding:8px 16px; border-radius:6px; text-decoration:none; margin-bottom:16px; box-shadow:0 2px 4px rgba(0,0,0,0.1);"
       onmouseover="this.style.backgroundColor='#218838'"
       onmouseout="this.style.backgroundColor='#28a745'">
-      + Tambah Siswa
+      + Tambah Guru
     </a>
 
     <div class="bg-white rounded-xl shadow-lg p-4 overflow-x-auto">
@@ -162,8 +170,9 @@ $result = $conn->query($query);
         <thead class="bg-slate-100">
           <tr>
             <th class="px-4 py-2 border">No</th>
-            <th class="px-4 py-2 border">Nama Siswa</th>
-            <th class="px-4 py-2 border">Kelas</th>
+            <th class="px-4 py-2 border">Username </th>
+            <th class="px-4 py-2 border">Nama</th>
+            <th class="px-4 py-2 border">Email</th>
             <th class="px-4 py-2 border">Aksi</th>
           </tr>
         </thead>
@@ -173,12 +182,13 @@ $result = $conn->query($query);
             while ($row = $result->fetch_assoc()): ?>
               <tr class="hover:bg-slate-50 transition">
                 <td class="px-4 py-2 border"><?= $no++ ?></td>
+                <td class="px-4 py-2 border"><?= htmlspecialchars($row['username']) ?></td>
                 <td class="px-4 py-2 border"><?= htmlspecialchars($row['nama']) ?></td>
-                <td class="px-4 py-2 border"><?= htmlspecialchars($row['nama_kelas']) ?></td>
+                <td class="px-4 py-2 border"><?= htmlspecialchars($row['email']) ?></td>
                 <td class="px-4 py-2 border">
 
                   <!-- TOMBOL EDIT-->
-                  <a href="edit_siswa.php?id=<?= $row['id_user'] ?>"
+                  <a href="edit_guru.php?id=<?= $row['id_user'] ?>"
                     style="background-color:#ffc107; color:white; padding:6px 12px; border-radius:4px; text-decoration:none; margin-right:6px;"
                     onmouseover="this.style.backgroundColor='#e0a800'"
                     onmouseout="this.style.backgroundColor='#ffc107'">
@@ -186,8 +196,8 @@ $result = $conn->query($query);
                   </a>
 
                   <!-- TOMBOL HAPUS-->
-                  <a href="hapus_siswa.php?id=<?= $row['id_user'] ?>"
-                    onclick="return confirm('Yakin ingin menghapus siswa ini?');"
+                  <a href="hapus_guru.php?id=<?= $row['id_user'] ?>"
+                    onclick="return confirm('Yakin ingin menghapus guru ini?');"
                     style="background-color:#dc3545; color:white; padding:6px 12px; border-radius:4px; text-decoration:none;"
                     onmouseover="this.style.backgroundColor='#c82333'"
                     onmouseout="this.style.backgroundColor='#dc3545'">

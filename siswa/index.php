@@ -50,16 +50,16 @@ session_start();
 </head>
 
 <body
-  class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
+  class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-200 leading-default bg-gray-50 text-slate-500">
   <div class="absolute w-full bg-blue-500 dark:hidden min-h-75"></div>
   <!-- sidenav  -->
   <aside
-    class="bg-[#1b2d4a] text-slate-800 fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full border-0 shadow-xl dark:shadow-none dark:bg-slate-850 max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0"
+    class="bg-[#1b2d4a] text-slate-800 fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full border-0 shadow-xl dark:shadow-none dark:bg-white max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0"
     aria-expanded="false">
     <div class="h-19">
       <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer fas fa-times dark:text-slate-800 text-slate-400 xl:hidden"
         sidenav-close></i>
-      <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-white text-slate-700"
+      <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-slate-900 text-slate-700"
         href="https://demos.creative-tim.com/argon-dashboard-tailwind/pages/dashboard.html" target="_blank">
         <img src="./assets/img/logo-ct-dark.png"
           class="inline h-full max-w-full transition-all duration-200 dark:hidden ease-nav-brand max-h-8"
@@ -88,10 +88,8 @@ session_start();
         </li>
 
         <li class="mt-0.5 w-full">
-          <a class="py-2.7 hover:bg-blue-800 dark:text-slate-300 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200"
-            href="nilai/nilai.php">
-            <div
-              class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+          <a class="py-2.7 hover:bg-blue-100 dark:text-slate-600 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="nilai/nilai.php">
+            <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
               <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-chart-bar-32"></i>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Nilai</span>
@@ -133,13 +131,13 @@ session_start();
           <!-- breadcrumb -->
           <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
             <li class="text-sm leading-normal">
-              <a class="text-white opacity-50" href="javascript:;">Pages</a>
+              <a class="text-slate-900 opacity-50" href="javascript:;">Pages</a>
             </li>
             <li
-              class="text-sm pl-2 capitalize leading-normal text-white before:float-left before:pr-2 before:text-white before:content-['/']"
+              class="text-sm pl-2 capitalize leading-normal text-slate-900 before:float-left before:pr-2 before:text-slate-900 before:content-['/']"
               aria-current="page">Dashboard</li>
           </ol>
-          <h6 class="mb-0 font-bold text-white capitalize">Dashboard</h6>
+          <h6 class="mb-0 font-bold text-slate-900 capitalize">Dashboard</h6>
         </nav>
 
         <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
@@ -161,7 +159,7 @@ session_start();
               </li> -->
             <li class="flex items-center">
               <a href="./pages/sign-in.html"
-                class="block px-0 py-2 text-sm font-semibold text-white transition-all ease-nav-brand">
+                class="block px-0 py-2 text-sm font-semibold text-slate-900 transition-all ease-nav-brand">
                 <i class="fa fa-user sm:mr-1"></i>
                 <span class="hidden sm:inline">Sign In</span>
               </a>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once '../config.php';
 
 // Ambil data nilai lengkap
@@ -77,15 +78,25 @@ $result = $conn->query($query);
       background-color: #f4f6f9;
     }
   </style>
+  <script>
+    console.log("DEBUG SESSION:");
+    console.log("ID User:", "<?php echo $_SESSION['id_user'] ?? 'null'; ?>");
+    console.log("Username:", "<?php echo $_SESSION['username'] ?? 'null'; ?>");
+    console.log("Nama:", "<?php echo $_SESSION['nama'] ?? 'null'; ?>");
+    console.log("Email:", "<?php echo $_SESSION['email'] ?? 'null'; ?>");
+    console.log("Role:", "<?php echo $_SESSION['role'] ?? 'null'; ?>");
+    console.log("NISN:", "<?php echo $_SESSION['nisn'] ?? 'null'; ?>");
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-200 leading-default bg-gray-50 text-slate-900">
 
   <!-- SIDEBAR -->
-  <aside class="fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full bg-white border-0 shadow-xl dark:shadow-none dark:bg-slate-850 max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0 m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500" aria-expanded="false">
+  <aside class="fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full bg-white border-0 shadow-xl dark:shadow-none dark:bg-slate-850 max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0 m-0 font-sans text-base antialiased font-normal dark:bg-white leading-default bg-gray-50 text-slate-500" aria-expanded="false">
     <div class="h-19">
-      <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer fas fa-times dark:text-white text-slate-400 xl:hidden" sidenav-close></i>
-      <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-white text-slate-700" href="#">
+      <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer fas fa-times dark:text-slate-900 text-slate-400 xl:hidden" sidenav-close></i>
+      <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-slate-900 text-slate-700" href="#">
         <img src="../assets/img/logo-ct-dark.png" class="inline h-full max-w-full transition-all duration-200 dark:hidden ease-nav-brand max-h-8" alt="main_logo" />
         <img src="../assets/img/logo-ct.png" class="hidden h-full max-w-full transition-all duration-200 dark:inline ease-nav-brand max-h-8" alt="main_logo" />
         <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Argon Dashboard 2</span>
@@ -97,7 +108,7 @@ $result = $conn->query($query);
     <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
       <ul class="flex flex-col pl-0 mb-0">
         <li class="mt-0.5 w-full">
-          <a class="py-2.7 hover:bg-blue-100 dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../index.html">
+          <a class="py-2.7 hover:bg-blue-100 dark:text-slate-600 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../index.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
               <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-tv-2"></i>
             </div>
@@ -105,22 +116,30 @@ $result = $conn->query($query);
           </a>
         </li>
 
-        <li class="mt-0.5 w-full">
-          <a class="py-2.7 hover:bg-blue-100 dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../mapel/mapel.php">
+        <!-- <li class="mt-0.5 w-full">
+          <a class="py-2.7 hover:bg-blue-100 dark:text-slate-600 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../mapel/mapel.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
               <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-book-bookmark"></i>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Mapel</span>
           </a>
-        </li>
+        </li> -->
         <li class="mt-0.5 w-full">
-          <a class="py-2.7 hover:bg-blue-100 dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../siswa/siswa.php">
+          <a class="py-2.7 hover:bg-blue-100 dark:text-slate-600 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../siswa/siswa.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
               <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-hat-3"></i>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Siswa</span>
           </a>
         </li>
+        <!-- <li class="mt-0.5 w-full">
+          <a class="py-2.7 hover:bg-blue-100 dark:text-slate-600 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../guru/guru.php">
+            <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+              <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-hat-3"></i>
+            </div>
+            <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Guru</span>
+          </a>
+        </li> -->
         <li class="mt-0.5 w-full">
           <a class="py-2.7 bg-blue-500 text-white dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="nilai.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
@@ -129,12 +148,22 @@ $result = $conn->query($query);
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Nilai</span>
           </a>
         </li>
-        <li class="mt-0.5 w-full">
+        <!-- <li class="mt-0.5 w-full">
           <a class="py-2.7 hover:bg-blue-100 dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../galeri.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
               <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-tv-2"></i>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Galeri</span>
+          </a>
+        </li> -->
+        <li class="mt-auto w-full">
+          <a class="py-2.7 bg-red-600 hover:bg-red-700 text-white text-sm ease-nav-brand my-4 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200"
+            href="../../logout.php">
+            <div
+              class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+              <i class="relative top-0 text-sm leading-normal text-white ni ni-button-power"></i>
+            </div>
+            <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Logout</span>
           </a>
         </li>
       </ul>
@@ -185,6 +214,17 @@ $result = $conn->query($query);
                 <td class="px-4 py-2 border"><?= number_format($row['nilai_akhir'], 2) ?></td>
                 <td class="px-4 py-2 border"><?= getGrade($row['nilai_akhir']) ?></td>
                 <td class="px-4 py-2 border">
+                  <a href="javascript:void(0);"
+                    onclick="showModal('<?= htmlspecialchars($row['nama_siswa']) ?>',
+                     '<?= htmlspecialchars($row['nama_mapel']) ?>',
+                     '<?= $row['uts'] ?>',
+                     '<?= $row['uas'] ?>',
+                     '<?= $row['tugas'] ?>',
+                     '<?= $row['nilai_akhir'] ?>')"
+                    style="background-color:#0d6efd; color:white; padding:6px 12px; border-radius:4px; text-decoration:none; margin-right:6px;"
+                    onmouseover="this.style.backgroundColor='#0b5ed7'"
+                    onmouseout="this.style.backgroundColor='#0d6efd'">Lihat</a>
+
                   <a href="edit_nilai.php?id=<?= $row['id_nilai'] ?>"
                     style="background-color:#ffc107; color:white; padding:6px 12px; border-radius:4px; text-decoration:none; margin-right:6px;"
                     onmouseover="this.style.backgroundColor='#e0a800'"
@@ -206,6 +246,58 @@ $result = $conn->query($query);
         </tbody>
       </table>
     </div>
+    <!-- Modal -->
+    <div id="nilaiModal" class="fixed inset-0 hidden bg-black/50 z-50 flex items-center justify-center px-4">
+      <div class="bg-white w-full max-w-lg rounded-xl shadow-lg p-6 text-slate-700 relative">
+        <h2 class="text-2xl font-semibold mb-6 border-b pb-3 text-center">Detail Nilai Siswa</h2>
+        <div class="space-y-4">
+          <div class="flex justify-between">
+            <span class="font-medium text-slate-600">Nama Siswa:</span>
+            <span id="modalNama" class="text-slate-800 font-semibold text-right"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="font-medium text-slate-600">Mata Pelajaran:</span>
+            <span id="modalMapel" class="text-slate-800 font-semibold text-right"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="font-medium text-slate-600">UTS:</span>
+            <span id="modalUTS" class="text-slate-800 font-semibold text-right"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="font-medium text-slate-600">UAS:</span>
+            <span id="modalUAS" class="text-slate-800 font-semibold text-right"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="font-medium text-slate-600">Tugas:</span>
+            <span id="modalTugas" class="text-slate-800 font-semibold text-right"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="font-medium text-slate-600">Nilai Akhir:</span>
+            <span id="modalNilaiAkhir" class="text-slate-800 font-semibold text-right"></span>
+          </div>
+        </div>
+        <div class="mt-6 text-center">
+          <button onclick="closeModal()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg shadow">
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+    <script>
+      function showModal(nama, mapel, uts, uas, tugas, nilaiAkhir) {
+        document.getElementById('modalNama').textContent = nama;
+        document.getElementById('modalMapel').textContent = mapel;
+        document.getElementById('modalUTS').textContent = uts;
+        document.getElementById('modalUAS').textContent = uas;
+        document.getElementById('modalTugas').textContent = tugas;
+        document.getElementById('modalNilaiAkhir').textContent = nilaiAkhir;
+        document.getElementById('nilaiModal').classList.remove('hidden');
+      }
+
+      function closeModal() {
+        document.getElementById('nilaiModal').classList.add('hidden');
+      }
+    </script>
   </main>
 
 </body>
