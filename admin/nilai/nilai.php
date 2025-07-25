@@ -2,15 +2,26 @@
 session_start();
 include_once '../config.php';
 
-// Ambil data nilai lengkap
+$filter_nisn = $_GET['nisn'] ?? '';
+
+// Query default (tanpa pencarian)
 $query = "
-    SELECT n.id_nilai, u.nama AS nama_siswa, m.nama_mapel,
+    SELECT n.id_nilai, u.nama AS nama_siswa, u.nisn, m.nama_mapel,
            n.uts, n.uas, n.tugas, n.nilai_akhir
     FROM nilai n
     JOIN users u ON n.id_siswa = u.id_user
     JOIN mapel m ON n.id_mapel = m.id_mapel
 ";
-$result = $conn->query($query);
+
+// Jika ada pencarian berdasarkan NISN
+if (!empty($filter_nisn)) {
+  $stmt = $conn->prepare($query . " WHERE u.nisn = ?");
+  $stmt->bind_param("s", $filter_nisn);
+  $stmt->execute();
+  $result = $stmt->get_result();
+} else {
+  $result = $conn->query($query);
+}
 ?>
 
 <!DOCTYPE html>
@@ -148,14 +159,14 @@ $result = $conn->query($query);
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Nilai</span>
           </a>
         </li>
-        <!-- <li class="mt-0.5 w-full">
-          <a class="py-2.7 hover:bg-blue-100 dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../galeri.php">
+        <li class="mt-0.5 w-full">
+          <a class="py-2.7 hover:bg-blue-100 dark:text-slate-600 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../galeri/galeri.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-              <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-tv-2"></i>
+              <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-camera-compact"></i>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Galeri</span>
           </a>
-        </li> -->
+        </li>
         <li class="mt-auto w-full">
           <a class="py-2.7 bg-red-600 hover:bg-red-700 text-white text-sm ease-nav-brand my-4 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200"
             href="../../logout.php">
@@ -173,12 +184,22 @@ $result = $conn->query($query);
   <!-- MAIN CONTENT -->
   <main class="p-6">
     <h1 class="text-2xl font-semibold text-slate-700 mb-4">Daftar Nilai Siswa</h1>
-    <a href="tambah_nilai.php"
-      style="display:inline-block; background-color:#28a745; color:white; padding:8px 16px; border-radius:6px; text-decoration:none; margin-bottom:16px; box-shadow:0 2px 4px rgba(0,0,0,0.1);"
-      onmouseover="this.style.backgroundColor='#218838'"
-      onmouseout="this.style.backgroundColor='#28a745'">
-      + Tambah Nilai
-    </a>
+    <div class="flex justify-between items-center mb-4">
+      <a href="tambah_nilai.php"
+        style="display:inline-block; background-color:#28a745; color:white; padding:8px 16px; border-radius:6px; text-decoration:none; box-shadow:0 2px 4px rgba(0,0,0,0.1);"
+        onmouseover="this.style.backgroundColor='#218838'"
+        onmouseout="this.style.backgroundColor='#28a745'">
+        + Tambah Nilai
+      </a>
+
+      <form method="GET" class="flex">
+        <input type="text" name="nisn" placeholder="Cari NISN..."
+          class="border border-gray-300 rounded-l px-3 py-2 focus:outline-none focus:ring focus:border-blue-500"
+          value="<?= htmlspecialchars($_GET['nisn'] ?? '') ?>" required>
+        <button type="submit"
+          class="bg-blue-600 text-white px-4 py-2 rounded-r hover:bg-blue-700">Cari</button>
+      </form>
+    </div>
 
     <div class="bg-white rounded-xl shadow-lg p-4 overflow-x-auto">
       <?php
@@ -297,6 +318,14 @@ $result = $conn->query($query);
       function closeModal() {
         document.getElementById('nilaiModal').classList.add('hidden');
       }
+    </script>
+    <script>
+      // Jika input pencarian dikosongkan lalu Enter ditekan, reload tanpa parameter
+      document.querySelector('input[name="nisn"]').addEventListener('input', function() {
+        if (this.value.trim() === '') {
+          window.location = window.location.pathname; // reload halaman tanpa query
+        }
+      });
     </script>
   </main>
 

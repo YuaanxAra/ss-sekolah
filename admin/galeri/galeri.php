@@ -2,11 +2,20 @@
 session_start();
 include_once '../config.php';
 
-// Ambil data user dengan peran guru
-$query = "
-    SELECT * FROM users WHERE role = 'guru'
-";
-$result = $conn->query($query);
+$filter_nisn = $_GET['nisn'] ?? '';
+
+// Query default (tanpa pencarian)
+$query = "SELECT * FROM galeri";
+
+// Jika ada pencarian berdasarkan NISN
+if (!empty($filter_nisn)) {
+  $stmt = $conn->prepare($query . " WHERE u.nisn = ?");
+  $stmt->bind_param("s", $filter_nisn);
+  $stmt->execute();
+  $result = $stmt->get_result();
+} else {
+  $result = $conn->query($query);
+}
 ?>
 
 <!DOCTYPE html>
@@ -14,13 +23,24 @@ $result = $conn->query($query);
 
 <head>
   <meta charset="UTF-8">
-  <title>Daftar Guru</title>
+  <title>Daftar Nilai</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <script src="https://unpkg.com/@popperjs/core@2"></script>
   <link href="../assets/css/argon-dashboard-tailwind.css?v=1.0.1" rel="stylesheet" />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- Nucleo Icons -->
+  <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Popper -->
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <!-- Main Styling -->
+  <link href="./assets/css/argon-dashboard-tailwind.css?v=1.0.1" rel="stylesheet" />
   <style>
     body {
       font-family: 'Open Sans', sans-serif;
@@ -51,7 +71,7 @@ $result = $conn->query($query);
     td {
       padding: 12px 16px;
       border: 1px solid #e0e0e0;
-      text-align: left;
+      text-align: center;
     }
 
     th {
@@ -78,7 +98,7 @@ $result = $conn->query($query);
 <body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-200 leading-default bg-gray-50 text-slate-900">
 
   <!-- SIDEBAR -->
-  <aside class="fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full bg-white border-0 shadow-xl dark:shadow-none dark:bg-white max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0 m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500" aria-expanded="false">
+  <aside class="fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full bg-white border-0 shadow-xl dark:shadow-none dark:bg-slate-850 max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0 m-0 font-sans text-base antialiased font-normal dark:bg-white leading-default bg-gray-50 text-slate-500" aria-expanded="false">
     <div class="h-19">
       <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer fas fa-times dark:text-slate-900 text-slate-400 xl:hidden" sidenav-close></i>
       <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-slate-900 text-slate-700" href="#">
@@ -118,9 +138,9 @@ $result = $conn->query($query);
           </a>
         </li>
         <li class="mt-0.5 w-full">
-          <a class="py-2.7 bg-blue-500 text-white dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="guru.php">
+          <a class="py-2.7 hover:bg-blue-100 dark:text-slate-600 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../guru/guru.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-              <i class="relative top-0 text-sm leading-normal text-white ni ni-hat-3"></i>
+              <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-hat-3"></i>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Guru</span>
           </a>
@@ -134,9 +154,9 @@ $result = $conn->query($query);
           </a>
         </li>
         <li class="mt-0.5 w-full">
-          <a class="py-2.7 hover:bg-blue-100 dark:text-slate-600 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="../galeri/galeri.php">
+          <a class="py-2.7 bg-blue-500 text-white dark:text-white text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold transition-all duration-200" href="galeri.php">
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-              <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-camera-compact"></i>
+              <i class="relative top-0 text-sm leading-normal text-white-500 ni ni-camera-compact"></i>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Galeri</span>
           </a>
@@ -157,22 +177,34 @@ $result = $conn->query($query);
 
   <!-- MAIN CONTENT -->
   <main class="p-6">
-    <h1 class="text-2xl font-semibold text-slate-700 mb-4">Daftar Guru</h1>
-    <a href="tambah_guru.php"
-      style="display:inline-block; background-color:#28a745; color:white; padding:8px 16px; border-radius:6px; text-decoration:none; margin-bottom:16px; box-shadow:0 2px 4px rgba(0,0,0,0.1);"
-      onmouseover="this.style.backgroundColor='#218838'"
-      onmouseout="this.style.backgroundColor='#28a745'">
-      + Tambah Guru
-    </a>
+    <h1 class="text-2xl font-semibold text-slate-700 mb-4">Daftar Foto</h1>
+    <div class="flex justify-between items-center mb-4">
+      <a href="tambah_galeri.php"
+        style="display:inline-block; background-color:#28a745; color:white; padding:8px 16px; border-radius:6px; text-decoration:none; box-shadow:0 2px 4px rgba(0,0,0,0.1);"
+        onmouseover="this.style.backgroundColor='#218838'"
+        onmouseout="this.style.backgroundColor='#28a745'">
+        + Tambah Foto
+      </a>
+
+      <!-- <form method="GET" class="flex">
+        <input type="text" name="nisn" placeholder="Cari NISN..."
+          class="border border-gray-300 rounded-l px-3 py-2 focus:outline-none focus:ring focus:border-blue-500"
+          value="<?= htmlspecialchars($_GET['nisn'] ?? '') ?>" required>
+        <button type="submit"
+          class="bg-blue-600 text-white px-4 py-2 rounded-r hover:bg-blue-700">Cari</button>
+      </form> -->
+    </div>
 
     <div class="bg-white rounded-xl shadow-lg p-4 overflow-x-auto">
       <table class="min-w-full border border-slate-200 text-sm text-slate-600">
         <thead class="bg-slate-100">
           <tr>
             <th class="px-4 py-2 border">No</th>
-            <th class="px-4 py-2 border">Username </th>
-            <th class="px-4 py-2 border">Nama</th>
-            <th class="px-4 py-2 border">Email</th>
+            <th class="px-4 py-2 border">Judul</th>
+            <th class="px-4 py-2 border">Deskripsi</th>
+            <th class="px-4 py-2 border">Gambar</th>
+            <th class="px-4 py-2 border">Tipe</th>
+            <th class="px-4 py-2 border">Tanggal Upload</th>
             <th class="px-4 py-2 border">Aksi</th>
           </tr>
         </thead>
@@ -182,40 +214,36 @@ $result = $conn->query($query);
             while ($row = $result->fetch_assoc()): ?>
               <tr class="hover:bg-slate-50 transition">
                 <td class="px-4 py-2 border"><?= $no++ ?></td>
-                <td class="px-4 py-2 border"><?= htmlspecialchars($row['username']) ?></td>
-                <td class="px-4 py-2 border"><?= htmlspecialchars($row['nama']) ?></td>
-                <td class="px-4 py-2 border"><?= htmlspecialchars($row['email']) ?></td>
+                <td class="px-4 py-2 border"><?= htmlspecialchars($row['judul']) ?></td>
+                <td class="px-4 py-2 border"><?= htmlspecialchars($row['deskripsi']) ?></td>
                 <td class="px-4 py-2 border">
-
-                  <!-- TOMBOL EDIT-->
-                  <a href="edit_guru.php?id=<?= $row['id_user'] ?>"
+                  <img src="../../uploads/<?= htmlspecialchars($row['nama_file']) ?>" alt="gambar" class="w-24 h-24 object-cover rounded">
+                </td>
+                <td class="px-4 py-2 border capitalize"><?= $row['tipe'] ?></td>
+                <td class="px-4 py-2 border"><?= date('d-m-Y H:i', strtotime($row['tanggal_upload'])) ?></td>
+                <td class="px-4 py-2 border">
+                  <a href="edit_galeri.php?id=<?= $row['id_galeri'] ?>"
                     style="background-color:#ffc107; color:white; padding:6px 12px; border-radius:4px; text-decoration:none; margin-right:6px;"
                     onmouseover="this.style.backgroundColor='#e0a800'"
-                    onmouseout="this.style.backgroundColor='#ffc107'">
-                    Edit
-                  </a>
+                    onmouseout="this.style.backgroundColor='#ffc107'">Edit</a>
 
-                  <!-- TOMBOL HAPUS-->
-                  <a href="hapus_guru.php?id=<?= $row['id_user'] ?>"
-                    onclick="return confirm('Yakin ingin menghapus guru ini?');"
+                  <a href="hapus_galeri.php?id=<?= $row['id_galeri'] ?>"
+                    onclick="return confirm('Yakin ingin menghapus gambar ini?');"
                     style="background-color:#dc3545; color:white; padding:6px 12px; border-radius:4px; text-decoration:none;"
                     onmouseover="this.style.backgroundColor='#c82333'"
-                    onmouseout="this.style.backgroundColor='#dc3545'">
-                    Hapus
-                  </a>
+                    onmouseout="this.style.backgroundColor='#dc3545'">Hapus</a>
                 </td>
               </tr>
             <?php endwhile; ?>
           <?php else: ?>
             <tr>
-              <td colspan="8" class="text-center py-4">Data nilai tidak ditemukan.</td>
+              <td colspan="7" class="text-center py-4">Belum ada foto galeri yang ditambahkan.</td>
             </tr>
           <?php endif; ?>
         </tbody>
       </table>
     </div>
   </main>
-
 
 </body>
 

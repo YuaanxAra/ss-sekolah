@@ -8,12 +8,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     $email    = $_POST['email'];
 
-    $hashPassword = password_hash($password, PASSWORD_DEFAULT);
     $role         = 'guru';
     $created      = date('Y-m-d H:i:s');
 
     $stmt = $conn->prepare("INSERT INTO users (username, password, nama, email, role, created_at) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $username, $hashPassword, $nama, $email, $role, $created);
+    $stmt->bind_param("ssssss", $username, $password, $nama, $email, $role, $created);
 
     if ($stmt->execute()) {
         header("Location: guru.php");
